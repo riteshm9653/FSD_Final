@@ -1,0 +1,110 @@
+<div class="container">
+  <div class="header">
+    <h1>Equipment Management</h1>
+    <button class="add-button" (click)="onAddNew()">Add New Equipment</button>
+  </div>
+
+  <!-- Equipment List -->
+  <div class="equipment-list" *ngIf="!showForm">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Category</th>
+          <th>Quantity</th>
+          <th>Condition</th>
+          <th>Cost</th>
+          <th>Location</th>
+          <th>Status</th>
+          <th>Last Maintenance</th>
+          <th>Next Maintenance</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let equipment of equipmentList">
+          <td>{{equipment.name}}</td>
+          <td>{{equipment.description}}</td>
+          <td>{{equipment.category}}</td>
+          <td>{{equipment.quantity}}</td>
+          <td>{{equipment.condition}}</td>
+          <td>{{equipment.costPerUnit | currency}}</td>
+          <td>{{equipment.location}}</td>
+          <td>{{equipment.status}}</td>
+          <td>{{equipment.lastMaintenance | date}}</td>
+          <td>{{equipment.nextMaintenance | date}}</td>
+          <td>
+            <button class="edit-button" (click)="onEdit(equipment)">Edit</button>
+            <button class="delete-button" (click)="onDelete(equipment.id!)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Equipment Form -->
+  <div class="equipment-form" *ngIf="showForm">
+    <h2>{{isEditing ? 'Edit' : 'Add'}} Equipment</h2>
+    <form (ngSubmit)="onSave()">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" [(ngModel)]="selectedEquipment.name" name="name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" [(ngModel)]="selectedEquipment.description" name="description" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="category">Category</label>
+        <input type="text" id="category" [(ngModel)]="selectedEquipment.category" name="category" required>
+      </div>
+
+      <div class="form-group">
+        <label for="quantity">Quantity</label>
+        <input type="number" id="quantity" [(ngModel)]="selectedEquipment.quantity" name="quantity" required>
+      </div>
+
+      <div class="form-group">
+        <label for="condition">Condition</label>
+        <input type="text" id="condition" [(ngModel)]="selectedEquipment.condition" name="condition" required>
+      </div>
+
+      <div class="form-group">
+        <label for="costPerUnit">Cost Per Unit</label>
+        <input type="number" id="costPerUnit" [(ngModel)]="selectedEquipment.costPerUnit" name="costPerUnit" required>
+      </div>
+
+      <div class="form-group">
+        <label for="location">Location</label>
+        <input type="text" id="location" [(ngModel)]="selectedEquipment.location" name="location" required>
+      </div>
+
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" [(ngModel)]="selectedEquipment.status" name="status" required>
+          <option value="OPERATIONAL">Operational</option>
+          <option value="MAINTENANCE">Maintenance</option>
+          <option value="OUT_OF_SERVICE">Out of Service</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="lastMaintenance">Last Maintenance</label>
+        <input type="datetime-local" id="lastMaintenance" [(ngModel)]="selectedEquipment.lastMaintenance" name="lastMaintenance" required>
+      </div>
+
+      <div class="form-group">
+        <label for="nextMaintenance">Next Maintenance</label>
+        <input type="datetime-local" id="nextMaintenance" [(ngModel)]="selectedEquipment.nextMaintenance" name="nextMaintenance" required>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="save-button">Save</button>
+        <button type="button" class="cancel-button" (click)="onCancel()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div> 
